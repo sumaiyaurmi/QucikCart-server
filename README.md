@@ -20,9 +20,11 @@ This is the backend part of the [Quick Cart] application. It is built using Node
 
 
 
-### Steps
+### Installation and Setup
 
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/yourusername/your-backend-repo.git
-   cd your-backend-repo
+
+To clone and run this project locally, follow these steps:
+
+Clone the repository: git clone [https://github.com/sumaiyaurmi/QuickCart](https://github.com/sumaiyaurmi/QucikCart-server)
+Navigate to the project directory: cd QuickCart-server
+Install dependencies: npm install
