@@ -41,18 +41,23 @@ async function run() {
     app.get("/products", async (req, res) => {
       const size = parseInt(req.query.size);
       const page = parseInt(req.query.page) - 1;
-      const search=req.query.search
-      const timeSort=req.query.timeSort
+      const search = req.query.search || '';
+  const timeSort = req.query.timeSort || null;
+  const priceSort = req.query.priceSort || null;
       let query={
         name:{ $regex: search,$options:'i' },
       }
-      const options = {
-        sort: {
-            createdAt: timeSort === "asc" ? 1 : -1,
-        },
-      };
+      // Build the sort object dynamically
+  let sortOptions = {};
+  if (timeSort) {
+    sortOptions.createdAt = timeSort === "asc" ? 1 : -1;
+  }
+  if (priceSort) {
+    sortOptions.price = priceSort === "asc" ? 1 : -1;
+  }
       const result = await productCollection
-        .find(query,options)
+        .find(query)
+        .sort(sortOptions)  
         .skip(page * size)
         .limit(size)
         .toArray();
