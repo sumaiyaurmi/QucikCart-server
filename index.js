@@ -41,10 +41,14 @@ async function run() {
     app.get("/products", async (req, res) => {
       const size = parseInt(req.query.size);
       const page = parseInt(req.query.page) - 1;
-      console.log(page, size);
+      const search=req.query.search
+      
+      let query={
+        name:{ $regex: search,$options:'i' },
+      }
 
       const result = await productCollection
-        .find()
+        .find(query)
         .skip(page * size)
         .limit(size)
         .toArray();
@@ -53,7 +57,13 @@ async function run() {
 
     //   get all products count
     app.get("/products-count", async (req, res) => {
-      const count = await productCollection.countDocuments();
+        const search=req.query.search
+
+        let query={
+            name:{ $regex: search,$options:'i' },
+          }
+    
+      const count = await productCollection.countDocuments(query);
       res.send({ count });
     });
 
