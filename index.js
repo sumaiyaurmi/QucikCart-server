@@ -42,13 +42,17 @@ async function run() {
       const size = parseInt(req.query.size);
       const page = parseInt(req.query.page) - 1;
       const search=req.query.search
-      
+      const timeSort=req.query.timeSort
       let query={
         name:{ $regex: search,$options:'i' },
       }
-
+      const options = {
+        sort: {
+            createdAt: timeSort === "asc" ? 1 : -1,
+        },
+      };
       const result = await productCollection
-        .find(query)
+        .find(query,options)
         .skip(page * size)
         .limit(size)
         .toArray();
